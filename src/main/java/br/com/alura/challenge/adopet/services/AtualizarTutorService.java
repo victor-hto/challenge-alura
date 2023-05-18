@@ -18,11 +18,14 @@ public class AtualizarTutorService {
             throw new RuntimeException("ID do tutor não existe!");
         }
 
-        Tutor tutor = tutorRepository.getReferenceById(dados.id());
-        tutor.setNome(dados.nome());
-        tutor.setEmail(dados.email());
+        if(dados.senha() != null || dados.confirmacaoSenha() != null){
+            if (!dados.senha().equals(dados.confirmacaoSenha())) {
+                throw new RuntimeException("As senhas informadas não são iguais!");
+            }
+        }
 
-        tutorRepository.save(tutor);
+        Tutor tutor = tutorRepository.getReferenceById(dados.id());
+        tutor.atualizarDados(dados);
 
         return new DadosListagemTutor(tutor);
     }

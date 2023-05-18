@@ -9,9 +9,9 @@ import br.com.alura.challenge.adopet.services.AtualizarTutorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,6 +35,7 @@ public class TutorController {
     }
 
     @PutMapping
+    @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizarCadastroDto dados) {
         var tutor = atualizarTutorService.atualizarTutor(dados);
         return ResponseEntity.ok(tutor);
