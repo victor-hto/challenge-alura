@@ -49,4 +49,23 @@ public class TutorController {
 
         return ResponseEntity.ok(lista.stream().map(DadosListagemTutor::new).collect(Collectors.toList()));
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity get(@PathVariable Long id) {
+        var tutor = tutorRepository.findById(id);
+        if(tutor.isEmpty()){
+            return ResponseEntity.ok("Nenhum tutor encontrado");
+        }
+
+        return ResponseEntity.ok(tutor);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        if(!tutorRepository.existsById(id)){
+            return ResponseEntity.ok("Nenhum tutor encontrado");
+        }
+        tutorRepository.deleteById(id);
+        return ResponseEntity.ok("Tutor apagado com sucesso!");
+    }
 }
