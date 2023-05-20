@@ -4,6 +4,7 @@ import br.com.alura.challenge.adopet.domain.Pet;
 import br.com.alura.challenge.adopet.domain.dto.DadosAtualizaPetDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosCadastroPetDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosListagemPetDto;
+import br.com.alura.challenge.adopet.infra.ValidacaoException;
 import br.com.alura.challenge.adopet.repository.AbrigoRepository;
 import br.com.alura.challenge.adopet.repository.PetRepository;
 import br.com.alura.challenge.adopet.services.AtualizarPetService;
@@ -32,7 +33,7 @@ public class PetController {
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroPetDto dados) {
         var abrigo = abrigoRepository.findById(dados.abrigo_id());
         if (abrigo.isEmpty()) {
-            return ResponseEntity.ok("O abrigo informado não existe.");
+            throw new ValidacaoException("O abrigo informado não existe.");
         }
         var pet = new Pet(dados,abrigo.get());
         petRepository.save(pet);
@@ -55,7 +56,7 @@ public class PetController {
         return ResponseEntity.ok(lista.stream().map(DadosListagemPetDto::new).collect(Collectors.toList()));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id) {
         var pet = petRepository.findById(id);
         if (pet.isEmpty()) {
@@ -64,7 +65,7 @@ public class PetController {
         return ResponseEntity.ok(pet.get());
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         if (!petRepository.existsById(id)) {
             return ResponseEntity.ok("Nenhum item encontrado");

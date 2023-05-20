@@ -2,7 +2,7 @@ package br.com.alura.challenge.adopet.controller;
 
 import br.com.alura.challenge.adopet.domain.dto.DadosCadastroAdocaoDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosListagemAdocaoDto;
-import br.com.alura.challenge.adopet.services.AdotarPetService;
+import br.com.alura.challenge.adopet.services.AdocaoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdocaoController {
 
     @Autowired
-    private AdotarPetService adotarPetService;
+    private AdocaoService adotarPetService;
 
     @PostMapping
     @Transactional
@@ -23,7 +23,7 @@ public class AdocaoController {
         return ResponseEntity.ok(dadosListagem);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity cancelarAdocaoPet(@PathVariable Long id) {
         adotarPetService.controleCancelarAdocaoPet(id);
         return ResponseEntity.ok("Dados removidos com sucesso!");

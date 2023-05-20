@@ -46,7 +46,7 @@ public class AbrigoController {
         return ResponseEntity.ok(abrigos.stream().map(DadosListagemAbrigoDto::new).collect(Collectors.toList()));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id) {
         var abrigo = abrigoRepository.findById(id);
         if(abrigo.isEmpty()){
@@ -56,7 +56,7 @@ public class AbrigoController {
         return ResponseEntity.ok(abrigo);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         if(!abrigoRepository.existsById(id)){
             return ResponseEntity.ok("Nenhum abrigo encontrado");

@@ -4,6 +4,7 @@ import br.com.alura.challenge.adopet.domain.Tutor;
 import br.com.alura.challenge.adopet.domain.dto.DadosAtualizarCadastroDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosCadastroTutorDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosListagemTutor;
+import br.com.alura.challenge.adopet.infra.ValidacaoException;
 import br.com.alura.challenge.adopet.repository.TutorRepository;
 import br.com.alura.challenge.adopet.services.AtualizarTutorService;
 import jakarta.validation.Valid;
@@ -27,7 +28,7 @@ public class TutorController {
     @PostMapping
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroTutorDto dados) {
         if (!dados.senha().equals(dados.confirmacaoSenha())) {
-            return ResponseEntity.badRequest().body("As senhas informadas não são iguais!");
+            throw new ValidacaoException("As senhas informadas não são iguais!");
         } else {
             tutorRepository.save(new Tutor(dados));
             return ResponseEntity.ok(dados);
@@ -44,26 +45,26 @@ public class TutorController {
     @GetMapping
     public ResponseEntity listar() {
         var lista = tutorRepository.findAll();
-        if(lista.isEmpty()){
+        if (lista.isEmpty()) {
             return ResponseEntity.ok("Nenhum item encontrado");
         }
 
         return ResponseEntity.ok(lista.stream().map(DadosListagemTutor::new).collect(Collectors.toList()));
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id) {
         var tutor = tutorRepository.findById(id);
-        if(tutor.isEmpty()){
+        if (tutor.isEmpty()) {
             return ResponseEntity.ok("Nenhum tutor encontrado");
         }
 
         return ResponseEntity.ok(tutor);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-        if(!tutorRepository.existsById(id)){
+        if (!tutorRepository.existsById(id)) {
             return ResponseEntity.ok("Nenhum tutor encontrado");
         }
         tutorRepository.deleteById(id);
