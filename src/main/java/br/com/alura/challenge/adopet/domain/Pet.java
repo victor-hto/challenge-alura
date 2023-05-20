@@ -3,10 +3,7 @@ package br.com.alura.challenge.adopet.domain;
 import br.com.alura.challenge.adopet.domain.dto.DadosAtualizaPetDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosCadastroPetDto;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @EqualsAndHashCode(of = "id")
@@ -25,6 +22,8 @@ public class Pet {
     private String idade;
     private String endereco;
     private String imagem;
+
+    @Setter
     private Boolean adotado;
 
     @ManyToOne
