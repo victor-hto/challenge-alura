@@ -4,7 +4,7 @@ import br.com.alura.challenge.adopet.domain.Pet;
 import br.com.alura.challenge.adopet.domain.dto.DadosAtualizaPetDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosCadastroPetDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosListagemPetDto;
-import br.com.alura.challenge.adopet.infra.ValidacaoException;
+import br.com.alura.challenge.adopet.infra.exception.ValidacaoException;
 import br.com.alura.challenge.adopet.repository.AbrigoRepository;
 import br.com.alura.challenge.adopet.repository.PetRepository;
 import br.com.alura.challenge.adopet.services.AtualizarPetService;

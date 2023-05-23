@@ -3,7 +3,7 @@ package br.com.alura.challenge.adopet.services;
 import br.com.alura.challenge.adopet.domain.Tutor;
 import br.com.alura.challenge.adopet.domain.dto.DadosAtualizarCadastroDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosListagemTutor;
-import br.com.alura.challenge.adopet.infra.ValidacaoException;
+import br.com.alura.challenge.adopet.infra.exception.ValidacaoException;
 import br.com.alura.challenge.adopet.repository.TutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

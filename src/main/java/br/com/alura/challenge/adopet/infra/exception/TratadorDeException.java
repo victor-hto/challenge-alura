@@ -1,4 +1,4 @@
-package br.com.alura.challenge.adopet.infra;
+package br.com.alura.challenge.adopet.infra.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
