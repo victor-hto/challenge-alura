@@ -4,6 +4,7 @@ import br.com.alura.challenge.adopet.domain.Abrigo;
 import br.com.alura.challenge.adopet.domain.dto.DadosAtualizaAbrigoDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosCadastroAbrigoDto;
 import br.com.alura.challenge.adopet.domain.dto.DadosListagemAbrigoDto;
+import br.com.alura.challenge.adopet.infra.exception.ValidacaoException;
 import br.com.alura.challenge.adopet.repository.AbrigoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,17 @@ public class AbrigoController {
 
     @PostMapping
     private ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroAbrigoDto dados) {
-        var abrigo = abrigoRepository.save(new Abrigo(dados));
-        return ResponseEntity.ok(abrigo);
+        if (!dados.senha().equals(dados.confirmaSenha())) {
+            throw new ValidacaoException("As senhas informadas não são iguais!");
+        } else {
+            var abrigo = abrigoRepository.save(new Abrigo(dados));
+            return ResponseEntity.ok(new DadosListagemAbrigoDto(abrigo));
+        }
     }
 
     @PutMapping
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizaAbrigoDto dados) {
-        if (!abrigoRepository.existsById(dados.id())) {
-            return ResponseEntity.ok("ID do abrigo não existe!");
-        }
-
-        var abrigo = abrigoRepository.getReferenceById(dados.id());
+        Abrigo abrigo = abrigoRepository.findById(dados.id()).orElseThrow(() -> new ValidacaoException("ID do abrigo não existe!!"));
         abrigo.atualizarDados(dados);
 
         return ResponseEntity.ok(new DadosListagemAbrigoDto(abrigo));
@@ -48,12 +49,8 @@ public class AbrigoController {
 
     @GetMapping("/{id}")
     public ResponseEntity get(@PathVariable Long id) {
-        var abrigo = abrigoRepository.findById(id);
-        if(abrigo.isEmpty()){
-            return ResponseEntity.ok("Nenhum abrigo encontrado");
-        }
-
-        return ResponseEntity.ok(abrigo);
+        Abrigo abrigo = abrigoRepository.findById(id).orElseThrow(() -> new ValidacaoException("ID do abrigo não existe!!"));
+        return ResponseEntity.ok(new DadosListagemAbrigoDto(abrigo));
     }
 
     @DeleteMapping("/{id}")

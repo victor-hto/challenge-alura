@@ -1,5 +1,6 @@
 package br.com.alura.challenge.adopet.domain.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 
 public record DadosCadastroAbrigoDto(
@@ -8,5 +9,14 @@ public record DadosCadastroAbrigoDto(
         @NotEmpty
         String telefone,
         @NotEmpty
-        String endereco) {
+        String endereco,
+        @NotEmpty
+        @Email
+        String email,
+        @NotEmpty
+        String senha,
+
+        @NotEmpty
+        String confirmaSenha
+) {
 }

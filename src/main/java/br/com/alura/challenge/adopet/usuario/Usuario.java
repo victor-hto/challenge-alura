@@ -16,12 +16,13 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "usuarios")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String email;
-    private String senha;
+    protected Long id;
+    protected String email;
+    protected String senha;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuarios_perfis",
